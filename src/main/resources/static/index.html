@@ -3,8 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Naver Map Api Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript"
+            th:src="@{'https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId='+${@environment.getProperty('datasource.client_id')}}"></script>
+    <script type="text/javascript" src="map.js"></script>
+    <style>
+        .container {
+            display: flex;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        /*이중선 제거*/
+        th, td {
+            width: 100px;
+            height: 50px;
+            text-align: center;
+            border: 1px solid #000;
+
+            vertical-align: top; /* 위 */
+            vertical-align: bottom; /* 아래 */
+            vertical-align: middle; /* 가운데 */
+        }
+    </style>
 </head>
 <body>
+<h1>Naver Map API Test</h1>
+<div class="container">
+    <!--  지도 표시  -->
+    <div id="map" style="width:400px; height:400px"></div>
 
+    <div id="information" style="margin-left: 50px">
+        <!--  지도 중앙의 좌표를 표시  -->
+        <h3>중앙 좌표</h3>
+        <table id="center">
+            <tr>
+                <th scope="col">위도</th>
+                <th scope="col">경도</th>
+            </tr>
+            <tr>
+                <th id="num1">1</th>
+                <th id="num2">2</th>
+            </tr>
+        </table>
+
+        <!--  위도 경도 확인 버튼  -->
+        <button id="checkBtn">위도 경도 확인하기!!</button>
+    </div>
+</div>
 </body>
 </html>

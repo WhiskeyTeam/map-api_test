@@ -1,3 +1,11 @@
 spring:
   application:
     name: map-api_test
+
+#naver-cloud-platform-map:
+#  CLIEND_ID: ${{secrets.NAVER_MAP_API_CLIENT_ID}}
+#  CLIENT_SECRET_KEY: ${{secrets.NAVER_MAP_API_CLIENT_SECRET}}
+
+datasource:
+  client_id: 4iq0sfkqpd
+#  CLIENT_SECRET_KEY: ${{secrets.NAVER_MAP_API_CLIENT_SECRET}}
