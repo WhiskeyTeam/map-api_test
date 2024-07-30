@@ -7,5 +7,5 @@ spring:
 #  CLIENT_SECRET_KEY: ${{secrets.NAVER_MAP_API_CLIENT_SECRET}}
 
 datasource:
-  client_id: 4iq0sfkqpd
+  client_id: API_CLIENT_ID_KEY
 #  CLIENT_SECRET_KEY: ${{secrets.NAVER_MAP_API_CLIENT_SECRET}}
