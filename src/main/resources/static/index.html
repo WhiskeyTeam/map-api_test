@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>Naver Map Api Test</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--  geocoder 모듈을 활용하기 위해서는 clientId 뒤에 '&submodules=geocoder'로 모듈을 추가해주어야한다.  -->
     <script type="text/javascript"
-            th:src="@{'https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId='+${@environment.getProperty('datasource.client_id')}}"></script>
-    <script type="text/javascript" src="map.js"></script>
+            th:src="@{'https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId='+${@environment.getProperty('datasource.client_id')}+'&submodules=geocoder'}"></script>
+    <!--    <script type="text/javascript" src="map.js"></script>-->
+    <script type="text/javascript" src="map_pinInfo.js"></script>
     <style>
         .container {
             display: flex;
@@ -31,9 +33,10 @@
 </head>
 <body>
 <h1>Naver Map API Test</h1>
+<button type="button" onClick="location.href='/kakao'">카카오맵으로 이동</button>
 <div class="container">
     <!--  지도 표시  -->
-    <div id="map" style="width:400px; height:400px"></div>
+    <div id="map" style="width:800px; height:800px"></div>
 
     <div id="information" style="margin-left: 50px">
         <!--  지도 중앙의 좌표를 표시  -->
