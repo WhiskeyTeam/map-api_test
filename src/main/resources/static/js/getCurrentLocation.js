@@ -7,7 +7,7 @@ window.onload = function () {
                 level: 3 // 지도의 확대 레벨
             };
 
-        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+        window.map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
         /*
          * 지정한 위치에 마킹과 인포윈도우를 표시
@@ -30,7 +30,6 @@ window.onload = function () {
             // 인포윈도우를 생성합니다
             var infowindow = new kakao.maps.InfoWindow({
                 content: message,
-
             });
 
             // 인포윈도우를 마커위에 표시합니다
@@ -46,7 +45,6 @@ window.onload = function () {
         * */
         function currentLocation(map) {
             // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-            console.log("확인");
             if (navigator.geolocation) {
                 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
                 navigator.geolocation.getCurrentPosition(
@@ -78,7 +76,7 @@ window.onload = function () {
                 displayMarkerCurrentLocation(locPosition, message);
             }
         }
-        
-        currentLocation(map);
+
+        currentLocation(window.map);
     });
 }

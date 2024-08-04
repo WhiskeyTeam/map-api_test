@@ -13,18 +13,18 @@ window.onload = function () {
             level: 3 //지도의 레벨(확대, 축소 정도)
         };
 
-        var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+        window.map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 
         // 지도 타입 변경 컨트롤을 생성한다
         var mapTypeControl = new kakao.maps.MapTypeControl();
 
         // 지도의 상단 우측에 지도 타입 변경 컨트롤을 추가한다
-        map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+        window.map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
 
         // 지도에 확대 축소 컨트롤을 생성한다
         var zoomControl = new kakao.maps.ZoomControl();
 
         // 지도의 우측에 확대 축소 컨트롤을 추가한다
-        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+        window.map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     });
 };
