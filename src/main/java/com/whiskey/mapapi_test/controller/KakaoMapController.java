@@ -19,4 +19,9 @@ public class KakaoMapController {
     public String basic() {
         return "kakaoMapView";
     }
+
+    @GetMapping("/userLocation")
+    public String userLocation() {
+        return "kakaoMapUserLocation";
+    }
 }

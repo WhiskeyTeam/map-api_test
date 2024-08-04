@@ -1,7 +1,6 @@
 /*
  * 지도 표시
  * */
-
 window.onload = function () {
     kakao.maps.load(function () {
 
