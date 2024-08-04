@@ -12,14 +12,19 @@ window.onload = function () {
         /*
          * 지정한 위치에 마킹과 인포윈도우를 표시
          * */
-        function displayMarker(map, locPosition, message) {
-            // 지도 중심좌표를 접속위치로 변경합니다
-            // map.setCenter(locPosition);
+        function displayMarkerCurrentLocation(map, locPosition, message) {
+
+            var imageSrc = '//t1.daumcdn.net/localimg/localimages/07/2018/mw/m640/ico_marker.png', // 마커이미지의 주소입니다
+                imageSize = new kakao.maps.Size(15, 15), // 마커이미지의 크기입니다
+                imageOption = {offset: new kakao.maps.Point(7, 7)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
             // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
                 map: map,
                 position: locPosition,
+                image: markerImage
             });
 
             // 인포윈도우를 생성합니다
@@ -41,6 +46,7 @@ window.onload = function () {
         * */
         function currentLocation(map) {
             // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
+            console.log("확인");
             if (navigator.geolocation) {
                 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
                 navigator.geolocation.getCurrentPosition(
@@ -52,7 +58,7 @@ window.onload = function () {
                         var currentLocation = new kakao.maps.LatLng(lat, lng);
                         var message = '<div style="padding:5px;">현위치</div>'; // 인포윈도우에 표시할 내용
 
-                        displayMarker(map, currentLocation, message);
+                        displayMarkerCurrentLocation(map, currentLocation, message);
                         // displayMarker(position, message);
                     },
                     function () {
@@ -69,10 +75,10 @@ window.onload = function () {
                 var locPosition = new kakao.maps.LatLng(37.4812845080678, 126.952713197762),
                     message = '현재 위치를 알 수 없어 기본 위치로 이동합니다.';
 
-                displayMarker(locPosition, message);
+                displayMarkerCurrentLocation(locPosition, message);
             }
         }
-
+        
         currentLocation(map);
     });
 }
