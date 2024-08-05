@@ -50,14 +50,13 @@ function currentLocation(map) {
                 var lat = position.coords.latitude,  // 위도
                     lng = position.coords.longitude; // 경도
 
-                var currentLocation = new kakao.maps.LatLng(lat, lng);
+                window.presentLocation = new kakao.maps.LatLng(lat, lng);
                 var message = '<div style="padding:5px;">현위치</div>'; // 인포윈도우에 표시할 내용
 
-                displayMarkerCurrentLocation(map, currentLocation, message);
-                // displayMarker(position, message);
+                displayMarkerCurrentLocation(map, window.presentLocation, message);
             },
-            function () {
-                console.warn('ERROR(' + err.code + '): ' + err.message);
+            function (err) {
+                console.warn('ERROR(' + err.code + '): ' + err);
             }, {
                 enableHighAccuracy: true,
                 timeout: 5000,
