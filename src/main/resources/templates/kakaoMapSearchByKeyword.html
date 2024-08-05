@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/getKakaoApi.js"></script>
+    <script>
+        window.onload = function () {
+            kakao.maps.load(function () {
+                let src = [];
+                src.push('/js/kakaoMapView.js');
+                src.push('/js/getCurrentLocation.js');
+                src.push('/js/searchByKeyword.js');
+
+                for (let i = 0; i < src.length; i++) {
+                    let script = document.createElement("script");
+                    script.src = src[i];
+                    document.head.appendChild(script);
+                }
+            });
+        }
+    </script>
+    <title>Kakao Map - Search By Keyword</title>
+    <style>
+        #container {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<h1>KAKAO MAP VIEW - Search By Keyword</h1>
+
+<div id="container">
+    <div id="map" style="width:1000px; height:600px;"></div>
+
+    <div>
+        <h3>키워드로 검색</h3>
+        <div id="menu_wrap">
+            <form id="keywordForm">
+                <input id="keyword" type="text">
+                <button id="searchBtn">키워드로 검색</button>
+            </form>
+            <ul id="placesList"></ul>
+            <div id="pagination"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

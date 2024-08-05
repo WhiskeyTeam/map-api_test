@@ -24,4 +24,14 @@ public class KakaoMapController {
     public String userLocation() {
         return "kakaoMapUserLocation";
     }
+
+    @GetMapping("/pinnedLocation")
+    public String pinnedLocation() {
+        return "kakaoMapPinnedLocation";
+    }
+
+    @GetMapping("/searchByKeyword")
+    public String searchByKeyword() {
+        return "kakaoMapSearchByKeyword";
+    }
 }

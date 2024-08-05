@@ -10,7 +10,7 @@
 
         button {
             width: 150px;
-            height: 50px;
+            /*height: 50px;*/
             font-size: 15px;
             margin-bottom: 10px;
         }
@@ -23,7 +23,11 @@
     <br>
     <button type="button" onclick="location.href='/kakao/userLocation'">현재 사용자 위치 표시</button>
     <br>
-    <button>지도 띄우기</button>
+    <button type="button" onclick="location.href='/kakao/pinnedLocation'">사용자가 클릭한 위치에 핀을 설정하고 해당 위치의 위도, 경도, 주소를
+        불러온다.
+    </button>
+    <br>
+    <button type="button" onclick="location.href='/kakao/searchByKeyword'">키워드로 검색</button>
 </div>
 </body>
 </html>
