@@ -8,7 +8,22 @@
     <!--            th:src="@{'//dapi.kakao.com/v2/maps/sdk.js?appkey='+${@environment.getProperty('kakao.apiKey')}}"></script>-->
     <!--        <script src="/js/getCurrentLocation.js"></script>-->
     <script src="/js/getKakaoApi.js"></script>
-    <script src="/js/kakaoMapView.js"></script>
+
+    <script>
+        window.onload = function () {
+            kakao.maps.load(function () {
+                let src = [];
+                src.push('/js/kakaoMapView.js');
+
+                for (let i = 0; i < src.length; i++) {
+                    let script = document.createElement("script");
+                    script.src = src[i];
+                    document.head.appendChild(script);
+                }
+            });
+        }
+    </script>
+
     <title>KAKAO MAP VIEW - BASIC</title>
 </head>
 <body>

@@ -4,8 +4,22 @@
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/getKakaoApi.js"></script>
-    <script src="/js/kakaoMapView.js"></script>
-    <script src="/js/getCurrentLocation.js"></script>
+    
+    <script>
+        window.onload = function () {
+            kakao.maps.load(function () {
+                let src = [];
+                src.push('/js/kakaoMapView.js');
+                src.push('/js/getCurrentLocation.js');
+
+                for (let i = 0; i < src.length; i++) {
+                    let script = document.createElement("script");
+                    script.src = src[i];
+                    document.head.appendChild(script);
+                }
+            });
+        }
+    </script>
     <title>KAKAO MAP VIEW - BASIC</title>
 </head>
 <body>
