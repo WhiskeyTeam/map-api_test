@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/getKakaoApi.js"></script>
+    <script>
+        window.onload = function () {
+            kakao.maps.load(function () {
+                let src = [];
+                src.push('/js/kakaoMapView.js');
+                src.push('/js/getCurrentLocation.js');
+                src.push('/js/pinOnClick.js');
+                src.push('/js/getPinAddress.js');
+
+                for (let i = 0; i < src.length; i++) {
+                    let script = document.createElement("script");
+                    script.src = src[i];
+                    document.head.appendChild(script);
+                }
+            });
+        }
+    </script>
+
+    <title>Pinned Location</title>
+</head>
+<body>
+<h1>사용자가 클릭한 위치에 핀을 설정하고 해당 위치의 위도, 경도, 주소를 불러온다.</h1>
+<div id="map" style="width:1000px; height:600px;"></div>
+</body>
+</html>
