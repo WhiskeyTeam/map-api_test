@@ -21,7 +21,11 @@ function searchPlaces() {
         return false;
     }
 
-    ps.keywordSearch(keyword, placesSearchCB);
+    var options = {
+        bounds: window.map.getBounds()
+    }
+
+    ps.keywordSearch(keyword, placesSearchCB, options);
 }
 
 function placesSearchCB(data, status, pagination) {
@@ -51,14 +55,12 @@ function displayPlaces(places) {
     removeMarker();
 
     for (var i = 0; i < places.length; i++) {
-        const lon = places[i].x;
+        const lng = places[i].x;
         const lat = places[i].y;
 
-        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+        var placePosition = new kakao.maps.LatLng(lat, lng),
             marker = addMarker(placePosition, i),
             itemEl = getListItem(i, places[i]);
-
-        bounds.extend(placePosition);
 
         (function (marker, title) {
             kakao.maps.event.addListener(marker, 'mouseover', function () {
