@@ -1,10 +1,16 @@
+// 검색한 장소들의 위치를 표시할 마커
 var markers = [];
+
+// 사용자의 현재 위치
 var presentLocation = window.presentLocation;
 
+// 장소 검색 객체 생성
 var ps = new kakao.maps.services.Places(window.map);
 
+// 음식점 정보를 보여줄 인포윈도우
 var infowindow = new kakao.maps.InfoWindow({zIndex: 1});
 
+// 검색 form
 const keywordForm = document.getElementById('keywordForm');
 
 keywordForm.addEventListener('submit', function (e) {
@@ -22,7 +28,7 @@ function searchPlaces() {
     }
 
     var options = {
-        bounds: window.map.getBounds()
+        bounds: window.map.getBounds(),
     }
 
     ps.keywordSearch(keyword, placesSearchCB, options);
@@ -47,57 +53,64 @@ function displayPlaces(places) {
     var listEl = document.getElementById('placesList'),
         menuEl = document.getElementById('menu_wrap'),
         fragment = document.createDocumentFragment(),
-        bounds = window.map.getBounds(),
+        bounds = window.circle === null ? window.map.getBounds() : window.circle.getBounds(),
         listStr = '';
+
+    console.log("bounds : " + bounds + ", window.map.getBounds() : " + window.map.getBounds());
 
     removeAllChildNods(listEl);
 
     removeMarker();
 
+    var dist = document.getElementById('range').value;
+
     for (var i = 0; i < places.length; i++) {
-        const lng = places[i].x;
-        const lat = places[i].y;
 
-        var placePosition = new kakao.maps.LatLng(lat, lng),
-            marker = addMarker(placePosition, i),
-            itemEl = getListItem(i, places[i]);
+        if (checkInsideCircle(window.circle.getPosition(), places[i], dist)) {
+            const lng = places[i].x;
+            const lat = places[i].y;
 
-        (function (marker, title) {
-            kakao.maps.event.addListener(marker, 'mouseover', function () {
-                displayInfowindow(marker, title);
-            });
-            kakao.maps.event.addListener(marker, 'mouseout', function () {
-                infowindow.close();
-            });
-            itemEl.onmouseover = function () {
-                displayInfowindow(marker, title);
-            }
-            itemEl.onmouseout = function () {
-                infowindow.close();
-            }
-        })(marker, places[i].place_name);
+            var placePosition = new kakao.maps.LatLng(lat, lng),
+                marker = addMarker(placePosition, i),
+                itemEl = getListItem(i, places[i]);
 
-        (function (marker, title) {
-            kakao.maps.event.addListener(marker, 'click', function () {
-                searchDetailAddrFromCoords(presentPosition, function (result, status) {
-                    if (status === kakao.maps.services.Status.OK) {
-                        detailAddr = !!result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
-                        location.href = "https://map.kakao.com/?sName=" + detailAddr + "&eName=" + title
-                    }
+            (function (marker, title) {
+                kakao.maps.event.addListener(marker, 'mouseover', function () {
+                    displayInfowindow(marker, title);
                 });
-            })
-
-            itemEl.onclick = function () {
-                searchDetailAddrFromCoords(presentPosition, function (result, status) {
-                    if (status === kakao.maps.services.Status.OK) {
-                        detailAddr = !!result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
-                        location.href = "https://map.kakao.com/?sName=" + detailAddr + "&eName=" + title
-                    }
+                kakao.maps.event.addListener(marker, 'mouseout', function () {
+                    infowindow.close();
                 });
-            };
-        })(marker, places[i].place_name);
+                itemEl.onmouseover = function () {
+                    displayInfowindow(marker, title);
+                }
+                itemEl.onmouseout = function () {
+                    infowindow.close();
+                }
+            })(marker, places[i].place_name);
 
-        fragment.appendChild(itemEl);
+            (function (marker, title) {
+                kakao.maps.event.addListener(marker, 'click', function () {
+                    searchDetailAddrFromCoords(presentPosition, function (result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            detailAddr = !!result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
+                            location.href = "https://map.kakao.com/?sName=" + detailAddr + "&eName=" + title
+                        }
+                    });
+                })
+
+                itemEl.onclick = function () {
+                    searchDetailAddrFromCoords(presentPosition, function (result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            detailAddr = !!result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
+                            location.href = "https://map.kakao.com/?sName=" + detailAddr + "&eName=" + title
+                        }
+                    });
+                };
+            })(marker, places[i].place_name);
+
+            fragment.appendChild(itemEl);
+        }
     }
 
     listEl.appendChild(fragment);
@@ -210,4 +223,49 @@ var geocoder = new kakao.maps.services.Geocoder();
 
 function searchDetailAddrFromCoords(coords, callback) {
     geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+}
+
+// 생성된 원의 중심과 핀의 거리를 측정하여 원의 내부에 있는지 확인
+function checkInsideCircle(centerCoords, pinCoords, dist) {
+
+    if (dist == 0) {
+        return true;
+    }
+
+    // 원 중앙의 좌표
+    var c_lat = centerCoords.getLat();
+    var c_lng = centerCoords.getLng();
+
+    // 핀의 좌표
+    var p_lat = pinCoords.y;
+    var p_lng = pinCoords.x;
+
+    // Haversine 공식을 사용하여 두 위치 사이의 거리를 계산
+    var R = 6371e3;
+
+    // 좌표를 라디안으로 변경
+    var c_lat_rad = c_lat * Math.PI / 180;
+    var c_lng_rad = c_lng * Math.PI / 180;
+
+    var p_lat_rad = p_lat * Math.PI / 180;
+    var p_lng_rad = p_lng * Math.PI / 180;
+
+    var degree = Math.acos(
+        Math.sin(c_lat_rad) * Math.sin(p_lat_rad)
+        + Math.cos(c_lat_rad) * Math.cos(p_lat_rad) * Math.cos(Math.abs(c_lng_rad - p_lng_rad))
+    );
+
+    // var x = Math.sin(p_lat_rad / 2) * Math.sin(p_lat_rad / 2)
+    //     + Math.cos(c_lat_rad) * Math.cos(c_lng_rad)
+    //     * Math.sin(p_lng_rad / 2) * Math.sin(p_lng_rad / 2);
+    // var y = 2 * Math.atan2(Math.sqrt(c), Math.sqrt(1 - c));
+    // var distance = Math.sqrt(x * x + y * y) * R;
+
+    var distance = Math.abs(degree * R);
+
+    if (distance > dist) {
+        return false;
+    } else {
+        return true;
+    }
 }

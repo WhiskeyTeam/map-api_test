@@ -11,6 +11,7 @@
                 src.push('/js/kakaoMapView.js');
                 src.push('/js/getCurrentLocation.js');
                 src.push('/js/searchByKeyword.js');
+                src.push('/js/setSearchingRange.js');
 
                 for (let i = 0; i < src.length; i++) {
                     let script = document.createElement("script");
@@ -31,7 +32,16 @@
 <h1>KAKAO MAP VIEW - Search By Keyword</h1>
 
 <div id="container">
-    <div id="map" style="width:1000px; height:600px;"></div>
+    <div style="width: 800px; height: 600px">
+        <div id="map" style="width:100%; height:100%;"></div>
+        검색반경 설정
+        <input id="rangeCheckBox" type="checkbox">
+        <input id="range" disabled type="range" value="0" min="0" max="1000">
+        <p>반경 :
+            <output id="rangeValue">0</output>
+            km
+        </p>
+    </div>
 
     <div>
         <h3>키워드로 검색</h3>
