@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/getKakaoApi.js"></script>
+    <script>
+        window.onload = function () {
+            kakao.maps.load(function () {
+                let src = [];
+                src.push('/js/kakaoMapView.js');
+                src.push('/js/getCurrentLocation.js');
+                src.push('/js/pinOnClick.js');
+                src.push('/js/getPinAddress.js');
+                src.push('/js/getDataByRestApi.js');
+                src.push('/js/setRestApiSearchingRange.js');
+
+                for (let i = 0; i < src.length; i++) {
+                    let script = document.createElement("script");
+                    script.src = src[i];
+                    document.head.appendChild(script);
+                }
+            });
+        }
+    </script>
+    <title>GET Data By Api</title>
+</head>
+<body>
+<h1>GET Data By Api</h1>
+<div id="map" style="width:1000px; height:600px;"></div>
+검색반경 설정
+<input id="rangeCheckBox" type="checkbox">
+<input id="range" disabled type="range" value="0" min="0" max="1000">
+<p>반경 :
+    <output id="rangeValue">0</output>
+    km
+</p>
+<button id="getDataBtn">데이터 불러오기 검색</button>
+<div>
+    Rest Api 로 받아온 data
+    <p id="restApiData"></p>
+</div>
+</body>
+</html>
